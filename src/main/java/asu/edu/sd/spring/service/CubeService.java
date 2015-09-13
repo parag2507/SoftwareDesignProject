@@ -15,7 +15,7 @@ import asu.edu.sd.spring.domain.UnitConstants;
 public class CubeService implements ICubeService{
 
 	private static List<String> unitsList = new ArrayList<String>();
-	
+
 	@PostConstruct
 	public void init(){
 		Map<String, Map<String, Double>> conversionMap = UnitConstants.CONVERSIONMAP;
@@ -26,6 +26,20 @@ public class CubeService implements ICubeService{
 
 	@Override
 	public Cube getCube(Dimension dimension) {
+		Cube cube = new Cube();
+		cube.setLength(dimension.getLength() / 12);
+		
+		if(cube.getUnit() == null) {
+			cube.setUnit(dimension.getUnit());
+			cube.setVolume(calculateVolume(cube));
+			return cube;
+		}
+		
+		if(cube.getUnit() != dimension.getUnit()) {
+			cube.setLength(convertUnit(cube,dimension));
+			cube.setVolume(calculateVolume(cube));
+			return cube;
+		}
 		return null;
 	}
 
@@ -34,6 +48,16 @@ public class CubeService implements ICubeService{
 		return unitsList;
 	}
 	
+	public double calculateVolume(Cube cube) {
+		return (Math.pow(cube.getLength(), 3));
+	}
 	
+	public double convertUnit(Cube cube, Dimension dimension) {
+		return (cube.getLength() * UnitConstants.CONVERSIONMAP.get(dimension.getUnit()).get(cube.getUnit())) ;
+	}
+	
+	
+
+
 
 }
