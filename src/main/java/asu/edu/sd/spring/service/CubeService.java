@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import asu.edu.sd.spring.domain.Cube;
 import asu.edu.sd.spring.domain.Dimension;
+import asu.edu.sd.spring.domain.DimensionCube;
 import asu.edu.sd.spring.domain.UnitConstants;
 @Service
 public class CubeService implements ICubeService{
@@ -25,22 +26,22 @@ public class CubeService implements ICubeService{
 	}
 
 	@Override
-	public Cube getCube(Dimension dimension) {
-		Cube cube = new Cube();
-		cube.setLength(dimension.getLength() / 12);
+	public DimensionCube getOutput(DimensionCube input) {
 		
-		if(cube.getUnit() == null) {
-			cube.setUnit(dimension.getUnit());
-			cube.setVolume(calculateVolume(cube));
-			return cube;
+		Dimension inputDimension = input.getDimension();
+		Cube inputCube = input.getCube();
+		DimensionCube output = new DimensionCube();
+		output.setDimension(inputDimension);
+		Cube outputCube = new Cube();
+		if(inputCube.getUnit() == null){
+			outputCube.setUnit(inputDimension.getUnit());
+		}else{
+			outputCube.setUnit(inputCube.getUnit());
 		}
-		
-		if(cube.getUnit() != dimension.getUnit()) {
-			cube.setLength(convertUnit(cube,dimension));
-			cube.setVolume(calculateVolume(cube));
-			return cube;
-		}
-		return null;
+		outputCube.setLength(convertUnits(input)*(inputDimension.getLength()/12));
+		outputCube.setVolume(calculateVolume(outputCube.getLength()));
+		output.setCube(outputCube);
+		return output;
 	}
 
 	@Override
@@ -48,12 +49,12 @@ public class CubeService implements ICubeService{
 		return unitsList;
 	}
 	
-	public double calculateVolume(Cube cube) {
-		return (Math.pow(cube.getLength(), 3));
+	private double calculateVolume(double length) {
+		return (Math.pow(length, 3));
 	}
 	
-	public double convertUnit(Cube cube, Dimension dimension) {
-		return (cube.getLength() * UnitConstants.CONVERSIONMAP.get(dimension.getUnit()).get(cube.getUnit())) ;
+	private double convertUnits(DimensionCube input) {
+		return (UnitConstants.CONVERSIONMAP.get(input.getDimension().getUnit()).get(input.getCube().getUnit())) ;
 	}
 	
 	

@@ -2,12 +2,11 @@ package asu.edu.sd.spring.service;
 
 import java.util.List;
 
-import asu.edu.sd.spring.domain.Cube;
-import asu.edu.sd.spring.domain.Dimension;
+import asu.edu.sd.spring.domain.DimensionCube;
 
 public interface ICubeService {
 	
-	Cube getCube(Dimension dimension);
+	DimensionCube getOutput(DimensionCube input);
 	List<String> getUnits();
 	
 }

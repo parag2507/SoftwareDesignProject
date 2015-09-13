@@ -30,7 +30,9 @@ public class HomeController {
 			) {
 		
 		ModelAndView model = new ModelAndView("index");
-		model.addObject("command", input);
+		DimensionCube output = cubeService.getOutput(input);
+				
+		model.addObject("command", output);
 		model.addObject("unitList", cubeService.getUnits());
 		
 		return model;
