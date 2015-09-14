@@ -136,6 +136,9 @@ body{
 					<form:input  style="width:inherit;margin-bottom:3px"
 						type="text" path="cube.length" class="form-control"
 						id="cubeLength" readonly="true"/>
+					<form:input  style="width:inherit;margin-bottom:3px"
+						type="hidden" path="cube.volume" class="form-control"
+						id="cubeVol" />
 					<form:select style="width:100%" path="cube.unit" id="cubeUnit">
 	    				<form:options items="${unitList}"  /> 
 					</form:select>
@@ -143,6 +146,7 @@ body{
 			</div>
 		</div>
 	</form:form>
+	<h2>${cube.length}</h2>
 	<div style="padding-top:70px"></div>
 	<div class="row box-check">
 		<div class="shadow-wrapper">
@@ -182,7 +186,19 @@ $('#cubeUnit').change(
 $("#dimLength").bind("change", function() {
 	$(this).closest('form').trigger('submit');
 	$('.box-check').show();
- });
+	
+});
+$( document ).ready(function() {
+	updateText();
+});
+function updateText(){
+	var value = $('#cubeLength').val();
+	var volume = $('#cubeVol').val();
+	$('.front').html("<div style='padding-top:60px'>Length is "+value+" <br /> volume is "+volume+"</div>");
+	$('.back').html("<div style='padding-top:60px'>Length is "+value+" <br /> volume is "+volume+"</div>");
+	$('.left').html("<div style='padding-top:60px'>Length is "+value+" <br /> volume is "+volume+"</div>");
+	$('.right').html("<div style='padding-top:60px'>Length is "+value+" <br /> volume is "+volume+"</div>");
+}
 </script>
 
 </html>
