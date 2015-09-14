@@ -123,6 +123,7 @@ body{
 		<div class="row">
 			<div class="col-md-6">
 				<div class="form-group">
+					<label name=dimensionLabel>  Enter the total length </label>
 					<form:input style="width:inherit;margin-bottom:3px"
 						type="number" path="dimension.length" class="form-control"
 						id="dimLength"/>
@@ -133,6 +134,7 @@ body{
 			</div>
 			<div class="col-md-6">
 				<div class="form-group">
+					<label name=dimensionLabel> Length of the cube </label>
 					<form:input  style="width:inherit;margin-bottom:3px"
 						type="text" path="cube.length" class="form-control"
 						id="cubeLength" readonly="true"/>
